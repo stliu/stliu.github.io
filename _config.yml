@@ -70,7 +70,7 @@ theme: next
 deploy:
   type: git
   repo: git@github.com:stliu/stliu.github.io.git
-  # branch: master
+  branch: master
 # =============================================================================
 # NexT Theme configuration
 # =============================================================================
