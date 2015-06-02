@@ -34,7 +34,7 @@ titlecase: false # Transform title into titlecase
 external_link: true # Open external links in new tab
 filename_case: 0
 render_drafts: false
-post_asset_folder: false
+post_asset_folder: true
 relative_link: false
 future: true
 highlight:
@@ -76,10 +76,9 @@ deploy:
 # =============================================================================
 
 # 多说帐号
-duoshuo_shortname: your-duoshuo-shortname
 
 # DISQUS 帐号 （如果已经设置 多说 帐号，此选项将被跳过）
-disqus_shortname: your-disqus-shortname
+disqus_shortname: baasim
 
 
 # 社交链接，将在侧栏中显示

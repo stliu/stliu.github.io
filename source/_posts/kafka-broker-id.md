@@ -31,6 +31,10 @@ tags: kafka
 
 注: kafka的java client已经通过这种方式来自动感知broker的变化了.
 
+这里还有个小问题是默认情况下, kafka broker是对外暴露的是*hostname*, 这就要求集群中配置好DNS或者每个机器都要维护好*/etc/hosts*, 比较麻烦, 或者如果通过VPN连接到集群中的话, 也会遇到本地机器无法通过hostname来访问到kafka broker的问题.
+
+这个问题可以通过配置`advertised.host.name `属性为broker ip来解决
+
 
 ## 自动分配Broker ID
 
@@ -78,3 +82,65 @@ MX4j不仅在kafka中有所应用, 在其他很多开源项目中也都有被使
 在kafka中, 是通过`-Dmx4jport=8082`和`-Dmx4jaddress=0.0.0.0`来完成的, 这两个也是kafka中的默认值, 具体实现可以参考kafka源码中的`kafka.utils.Mx4jLoader`类.
 
 最常用的情景是我们可以通过JMX的方式来动态的调整一个类的log level, 在定位系统问题的时候会很有帮助.
+
+
+## 监控
+
+https://github.com/criteo/kafka-ganglia
+
+## replica相关的参数
+
+* default.replication.factor (1)
+
+	The default replication factor for automatically created topics 
+
+	默认的副本数
+
+* replica.lag.time.max.ms (10000)
+
+	follower的最大lag时间，即如果leader在这个时间内都没有收到follower的fetch请求，就认为它dead 
+
+	If a follower hasn't sent any fetch requests for this window of time, the leader will remove the follower from ISR (in-sync replicas) and treat it as dead. 
+
+* replica.lag.max.messages (4000)
+
+	最大lag消息数，超过这个消息数，leader会认为该follower dead 
+	
+	If a replica falls more than this many messages behind the leader, the leader will remove the follower from ISR and treat it as dead.
+
+* replica.socket.timeout.ms (30 * 1000)
+
+	The socket timeout for network requests to the leader for replicating data. 
+
+* replica.socket.receive.buffer.bytes (64 * 1024)
+
+	The socket receive buffer for network requests to the leader for replicating data.
+
+* replica.fetch.max.bytes (1024 * 1024)
+
+	一次fetch request最大可以fetch的数据size 
+
+	The number of byes of messages to attempt to fetch for each partition in the fetch requests the replicas send to the leader. 
+
+* replica.fetch.wait.max.ms (500)
+
+	fetch request的等待超时 
+
+	The maximum amount of time to wait time for data to arrive on the leader in the fetch requests sent by the replicas to the leader. 
+
+* replica.fetch.min.bytes (1)
+
+	Minimum bytes expected for each fetch response for the fetch requests from the replica to the leader. If not enough bytes, wait up to replica.fetch.wait.max.ms for this many bytes to arrive.
+
+* num.replica.fetchers (1)
+
+	follower上用于同步leader数据的线程数 
+
+	Number of threads used to replicate messages from leaders. Increasing this value can increase the degree of I/O parallelism in the follower broker.
+
+* replica.high.watermark.checkpoint.interval.ms (5000)
+
+	checkpoint HW的interval 
+
+	The frequency with which each replica saves its high watermark to disk to handle recovery.
+
