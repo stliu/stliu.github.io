@@ -4,17 +4,28 @@ var util = require('util');
 var pathFn = require('path');
 var fs = require('hexo-fs');
 
+// hexo.extend.tag.register('digraph', function(args, content){
+// 	var digraphName = args[0];
+// 	var digraph = 'digraph ' + digraphName + ' {\n' + content + '}';
+// 	var filename = digraphName+'.png';
+// 	 if(!fs.existsSync(this.asset_dir)){
+// 	 fs.mkdirSync(this.asset_dir);
+// 	 }
+//
+//
+// 	var fullpath = pathFn.join(this.asset_dir, filename);
+// 	var command = 'dot -Tpng -o'+fullpath;
+// 	execSync(command,{input: digraph});
+//   return '<img src="/'+this.path+filename+'"/>';
+// }, {ends: true, async: false});
+
+
 hexo.extend.tag.register('digraph', function(args, content){
 	var digraphName = args[0];
 	var digraph = 'digraph ' + digraphName + ' {\n' + content + '}';
-	var filename = digraphName+'.png';
-	 if(!fs.existsSync(this.asset_dir)){
-	 fs.mkdirSync(this.asset_dir);	
-	 }
-	 
-	 
-	var fullpath = pathFn.join(this.asset_dir, filename);
-	var command = 'dot -Tpng -o'+fullpath;
-	execSync(command,{input: digraph});
-  return '<img src="/'+this.path+filename+'"/>';
+	var command = 'dot -Tsvg';
+	var svgDigraph = execSync(command,{input: digraph});
+	hexo.log.info(svgDigraph.toString());
+	return '\r\n\r\n\r\n<div> <p>'+svgDigraph+'</p></div>\r\n\r\n\r\n';
+  // return '<img src="/'+this.path+filename+'"/>';
 }, {ends: true, async: false});
