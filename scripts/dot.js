@@ -25,7 +25,8 @@ hexo.extend.tag.register('digraph', function(args, content){
 	var digraph = 'digraph ' + digraphName + ' {\n' + content + '}';
 	var command = 'dot -Tsvg';
 	var svgDigraph = execSync(command,{input: digraph});
-	hexo.log.info(svgDigraph.toString());
-	return '\r\n\r\n\r\n<div> <p>'+svgDigraph+'</p></div>\r\n\r\n\r\n';
+	
+	
+	return '\r\n\r\n\r\n<div style="padding: 3px; box-sizing: border-box; margin: auto; padding: 3px; border: 1px solid; color: #ddd;"> <p>'+svgDigraph+'</p></div>\r\n\r\n\r\n';
   // return '<img src="/'+this.path+filename+'"/>';
 }, {ends: true, async: false});
