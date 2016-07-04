@@ -1,5 +1,5 @@
 title: Mac 初始化指南
-date: 2015-06-02 17:16:16
+date: 2015-05-02 17:16:16
 tags: 
 	- mac
 	- brew
