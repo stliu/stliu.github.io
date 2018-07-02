@@ -84,7 +84,7 @@ disqus_shortname: baasim
 # 在hexo/plugins/filter/after_post_render/external_link.js中被调用的
 # 它会修改生成改的svg的element节点, 本来一个polygon节点是自己封闭的
 # 可是会被修改成包含子节点, 导致svg无法正常显示
-external_link: false
+# external_link: false
 
 
 # 社交链接，将在侧栏中显示
